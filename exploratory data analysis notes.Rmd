@@ -63,5 +63,127 @@ output: html_document
 
 #### Air Pollution in the United States
  * The US Environmental Protection Agency(EPA) Sets national ambient air quality standards for outdoor air pollution.
- * Question: Are there Any counties in the US that exceed the national standard for fine particle pollution?
+ * Question: Are there any counties in the US that exceed the national standard for fine particle pollution?
  
+#### Data
+ * Can't find data set for example
+ 
+#### Simple Summaries of Data
+ * One dimension
+    + 5-number summary
+    + Boxplots
+    + Histograms
+    + Density plot
+    + Barplot
+    
+#### 5-number Summary
+#### Boxplot
+#### Histogram
+ * rug function
+ 
+#### Overlaying Features
+ * overlaying a horizontal line over the box plot
+ * overlaying a vertical line over the histogram
+ 
+#### Barplot
+ * Summarizes a categorical variable
+
+### Exploratory Graphs(part 2)
+
+#### Simple Summaries of Data
+
+ * 2 dimensions
+    + Multiple/overlaid 1D plots(Lattice/ggplot2)
+    + Scatterplots
+    + Smooth scatterplots
+ * 2 dimensions
+    + overlaid/multiple 2D Plots; co-plots
+    + Use color, size, shape to add dimensions
+    + Spinning plots
+    + Actual 3D plot(not that useful)
+    
+#### Multiple Boxplots  
+
+#### Multiple Histograms
+
+#### Scatterplot
+ * abline() does a overlay
+ * use color
+ * Use multiple scatterplot to display  East and West variables
+ 
+#### Summary
+ * Exploratory plots are "quick and dirty"
+ * Let you summarize the data(usually graphically) and highlight any broad features
+ * Explore basic questions and hypotheses(and perhaps rule them out)
+ * Suggest modeling strategies for the"next step"
+ 
+### Plotting Systems in R
+
+#### The Base Plotting System
+ * "Artist's palette" model
+ * Start with blank canvas and build up from there
+ * Start with plot function(or similar)
+ * Use annotation functions to add/modify( text, lines, points, axis)
+ * Convenient, mirrors how we think of building plots and analyzing data
+ * Can't go back once plot has started(i.e. to adjust margins); need to plan in advance
+ * Difficult to"translate" to others once a new plot has been created(no graphical "language")
+ * Plot is this a series of R commands
+ 
+#### Base Plot
+
+```{r}
+library(datasets)
+data(cars)
+with(cars, plot(speed, dist))
+```
+ 
+
+#### The Lattice System
+ * Plots are created with a single function call(xyplot, bwplot, etc.)
+ * Most useful for conditioning types of plots: Looking at how y changes with x across levels of z
+ * Things like margins/spacing set automatically because entire plot is specified at once
+ * Good for putting many many plots on a screen
+ * Sometimes awkward to specify and the entire plot in a single function call
+ * Annotation in plot is not especially intuitive
+ * Use of panel functions and subscripts difficult to wield and requires intense preparation
+ * Cannot "add" to the plot once it is created
+ 
+#### Lattice Plot
+
+```{r}
+library(lattice)
+state <- data.frame(state.x77, region = state.region)
+xyplot(Life.Exp~Income |  region, data = state, layout = c(4, 1))
+
+```
+ 
+#### The ggplot2 System
+ * Splits the difference between base and lattice in a number of ways
+ * Automatically deals with spacings, text, titles but also allows you to annotate by"adding to a plot"
+ * Superficial similarity to lattice but generally easier/more intuitive to use
+ * Default  mode makes many choices for you (but you can still customize to your hearts desire)
+ 
+#### ggplot2 Plot
+
+```{r}
+library(ggplot2)
+data(mpg)
+qplot(displ, hwy, data = mpg)
+```
+
+#### Summary
+ * Base:"artist's palette" model
+ * Lattice: Entire plot specified by one function; conditioning
+ * ggplot2: Mixes elements of Base and Lattice
+ 
+### Base Plotting System(part 1)
+#### Plotting System
+ * The core plotting and graphics engine in R is encapsulated in the following packages:
+    + graphics: contains plotting functions for the"base" graphing systems, including plot, hist, box  plot and many others.
+    + grDevices: Contains all the code implementing the various graphics devices, including X11, PDF,  PostScript, PNG, etc.
+ * The lattice plotting system is implemented using the following  packages:
+    + lattice: contains code for producing Trellis graphics, which are independent of the"base" graphics system; includes functions like xyplot, bwplot, levelplot
+    + grade: implements a different graphing system independent of the"base" system;; the lattice package builds on top of the grid; we seldom call functions from the grid package directly
+    
+   
+    

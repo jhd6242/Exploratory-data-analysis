@@ -1,0 +1,67 @@
+---
+title: "Exploratory Data Analysis"
+author: "Justin DeCross"
+date: "September 24, 2018"
+output: html_document
+---
+# Getting and Cleaning Data Notes
+## Week 1
+###Principles of Analytic Graphics
+#### Principles of Analytic Graphic
+ * Principal 1: Show Comparisons
+      + Evidence for a Hypothesis is always relative to another competing hypothesis.
+      + Always ask "Compared to What?"
+ * Principal 2: Show causality,  mechanism,  explanation, systematic structure
+      + What is your casual framework for thinking about a question?
+ * Principal 3: Show multivariate data
+      + Multivariate=more than 2 variables
+      + The real world is multivariate
+      + Need to "escape flatland"
+ * Principal 4: Integration of evidence
+      + Completely integrate word, numbers, images, diagrams
+      + Data graphics should make use of many mode of data presentation
+      + Don't let the tool drive the analysis
+ * Principal 5: Describe and document the evidence with appropriate labels, scales, sources, etc.
+      + A data graphic should tell a complete story that is credible
+ * Principal 6: Content is king
+      + Analytical presentations ultimately stand or fall depending on the quality, relevance, and integrity of their content
+
+#### Show Comparisons
+ * box graph
+ * show causality, mechanism
+ 
+#### Show multivariate data
+ * Daily mortality rate Verse particulate matter
+ * 4 different graphs comparing the different seasons  when it comes to particulate matter versus mortality rate
+ 
+#### Integrate different modes of evidence
+ * example of clean plots
+ 
+#### Summary
+ * Principal 1: Show comparisons
+ * Principal 2: Show causality, mechanism, explanation
+ * Principal 3: Show multivariate data
+ * Principal 4: Integrate multiple modes of evidence
+ * Principal 5: Describe and document the evidence
+ * Principal 6: Content
+ 
+### Exploratory Graphs (part 1)
+#### Exploratory graphs
+#### Why do we use graphs in data analysis?
+ * To understand data properties
+ * To find patterns in data
+ * To suggest modeling strategies
+ * To"debug" analyses
+ * To communicate results
+ 
+#### Characteristics of exploratory graphs
+ * They are made quickly
+ * A large number are made
+ * The goal is for personal understanding
+ * Axes/legends are generally cleaned up(later)
+ * Color/size are primarily used for information
+
+#### Air Pollution in the United States
+ * The US Environmental Protection Agency(EPA) Sets national ambient air quality standards for outdoor air pollution.
+ * Question: Are there Any counties in the US that exceed the national standard for fine particle pollution?
+ 

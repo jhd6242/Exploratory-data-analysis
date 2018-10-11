@@ -354,3 +354,20 @@ with(airquality, {
       + Creation of a plot
       + Annotation of a plot (adding lines, points, text, legend)
  * The base plotting system is very flexible and offers a high degree of control over plotting
+ 
+### Base Plotting Demonstration
+
+### Graphics Devices in R
+
+#### What is a Graphics Device?
+
+ * A graphics device is something where you can make a plot appear
+      + A window on your computer(screen device)
+      + A PDF file(file device)
+      + A PNG or JPEG file(file device)
+      + A scalable Vector graphics(SVG) file(file device)
+ * When you make a plot in R it has to be "sent" to a specific graphics device
+ * The most common place for a pot to be "sent" is the screen device
+      + On a Mac the screen device is launched with the quartz()
+      + On Windows the screen device is launched with windows()
+      + On UNIX/Linux screen device is launched with x11()

@@ -431,3 +431,48 @@ Vector formats:
  * svg: XML-based scalable Vector graphics: supports animation and interactivity, potentially useful for web-based plot
  * win.metafile: Windows metafile format(only on Windows)
  * postscript: older format, also resizes well, usually portable, can be used to create encapsulated postscript files; Windows systems often don't have a postscript viewer
+ 
+ 
+#### Graphics File Devices
+
+Bitmap formats
+
+ * png: bitmapped format, good for line drawings or images with solid colors, uses lossless compression(like the old GIF format), most web browsers can read this format natively, good for plotting many many many points, does not resize well
+ * jpeg: good for photographs or natural scenes, uses lossy compression, good for plotting many many many points, does not resize well, can be read by almost any computer and any web browser, not great for line drawings
+ * tiff: Creates bitmap files in the TIFF format; supports lossless compression
+ * bmp: a native Windows bitmapped format
+
+
+#### Multiple Open Graphics Devices
+
+ * It is possible to open multiple graphics devices(screen, file, or both), for example when viewing multiple plots at once
+ * Plotting can only occur on one graphics device at a time
+ * The currently active graphics device can be found by calling dev.cur()
+ * Every open graphics device designed an integer greater than or equal to 2
+ * You can change the active graphics device with dev.set(<integer>) where <integer> is the number associated with the graphics device you want to switch to
+
+#### Copying Plots
+
+Copying a plot to another device can be useful because some plots require a lot of code and they can be a pain to type all that in again for a different device.
+
+ * dev.copy: copy a plot from one device to another
+ * dev.copy2pdf: specifically copy a plot to a PDF file
+NOTE: Copying a plot is not an exact operation, so the results may not be identical to the original.
+
+```{r}
+library(datasets)
+with(faithful, plot(eruptions, waiting))	# Create plot on a screen device
+title(main = "Old Faithful Geyser data")	# Add a main title
+dev.copy(png, file = "geyserplot.png")	# Copy my plot to a PNG file
+dev.off()	# Don't forget to close the PNG device!
+```
+
+#### Summary
+
+ * Plots must be created on a graphics device
+ * The default graphics device is almost always the screen device, which is most useful for exploratory analysis
+ * File devices are useful for creating plots that can be included in other documents or sent to other people
+ * For file devices, there are vector and bitmap formats
+      + Vector formats are good for line drawings and plots with solid colors using a modest number of points
+      + Bitmap formats are good for plot with a large number of points, natural scenes or web-based plot
+

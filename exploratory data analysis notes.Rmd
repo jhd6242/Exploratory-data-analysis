@@ -1093,3 +1093,193 @@ SVD
  * where the columns of U are orthogonal (left singular vectors), the columns of V are orthogonal(right single vectors) and D is a diagonal matrix(singular values).
 PCA
  * the principal components are equal to the right singular value if you 1st scale(subtract the mean, divide by the standard deviation) the variables.
+
+### Dimension Reduction (part 2)
+
+#### Components of the SVD – u and v
+
+```{r}
+svd1 <- svd(scale(data_Matrix_Ordered))
+par(mfrow = c(1, 3))
+image(t(data_Matrix_Ordered)[, nrow(data_Matrix_Ordered): 1])
+plot(svd1$u[, 1], 40:1, , xlab = "Row", ylab = "First left singular vector",
+	pch = 19)
+plot(svd1$v[, 1], xlab = "Column", ylab = "First right singular vector", pch = 19)
+```
+
+
+#### Components of the SVD – Variance explained
+
+```{r}
+par(mfrow = c(1, 2))
+plot(svd1$d,xlab = "Column", ylab = "Singular value", pch = 19)
+plot(svd1$d^2/sum(svd1$d^2),xlab = "Column", ylab = "Prop. of variance explained",
+	pch = 19)
+```
+#### Relationship to principal components
+
+```{r}
+svd1 <- svd(scale(data_Matrix_Ordered))
+pca1 <- prcomp(data_Matrix_Ordered, scale = TRUE)
+plot(pca1$rotation[, 1], svd1$v[, 1], pch = 19, xlab = "Principal Component 1",
+	ylab = "Right Singular Vector 1")
+abline(c(0, 1))
+```
+#### Components of the SVD – variance explained
+
+```{r}
+constant_Matrix <- data_Matrix_Ordered*0
+for (i in 1:dim(data_Matrix_Ordered)[1]){constant_Matrix[i,] <- rep(c(0, 1), each = 5)}
+svd1 <- svd(constant_Matrix)
+par(mfrow = c(1, 3))
+image(t(constant_Matrix)[,nrow(constant_Matrix):1])
+plot(svd1$d,xlab = "Column",ylab = "Singular value", pch = 19)
+plot(svd1$d^2/sum(svd1$d^2),xlab = "Column",ylab = "Prop.of variance explained", pch = 19)
+```
+#### What if we add a 2nd pattern?
+
+```{r}
+set.seed(678910)
+for (i in 1:40){
+
+	coin_Flip1 <- rbinom(1, size = 1, prob = 0.5)
+	coin_Flip2 <- rbinom(1, size = 1, prob = 0.5)
+
+	if (coin_Flip1) {
+		dataMatrix[i, ] <- dataMatrix[i, ] + rep(c(0, 5), each = 5)
+	}
+	if (coin_Flip2) {
+		dataMatrix[i, ] <- dataMatrix[i, ] + rep(c(0, 5), 5)
+	}
+}
+
+hh <- hclust(dist(dataMatrix))
+data_Matrix_Ordered <- dataMatrix[hh$order, ]
+```
+
+#### Singular value decomposition – true patterns
+
+```{r}
+svd2 <- svd(scale(data_Matrix_Ordered))
+par(mfrow = c(1, 3))
+image(t(data_Matrix_Ordered)[, nrow(data_Matrix_Ordered):1])
+plot(rep(c(0, 1), each = 5), pch = 19, xlab = "Column", ylab = "Pattern 1")
+plot(rep(c(0, 1), 5), pch = 19, xlab = "Column", ylab = "Pattern 2")
+```
+#### v and patterns of variance in rows
+
+```{r}
+svd2 <- svd(scale(data_Matrix_Ordered))
+par(mfrow = c(1, 3))
+image(t(data_Matrix_Ordered)[, nrow(data_Matrix_Ordered):1])
+plot(svd2$v[, 1], pch = 19, xlab = "Column", ylab = "First right singular vector")
+plot(svd2$v[, 2], pch = 19, xlab = "Column", ylab = "Second right singular vector")
+```
+
+
+#### d and variance explained
+
+```{r}
+svd1 <- svd(scale(data_Matrix_Ordered))
+par(mfrow = c(1, 2))
+plot(svd1$d, xlab = "Column", ylab = "Singular value", pch = 19)
+plot(svd1$d^2/sum(svd1$d^2), xlab = "Column",ylab = "Percent of variance explained",
+	pch = 19)
+```
+
+#### Missing values
+
+```{r}
+data_Matrix2 <- data_Matrix_Ordered
+
+data_Matrix2[sample(1:100, size = 40, replace = FALSE)] <- NA
+# svd1 <- svd(scale(data_Matrix2)) 
+```
+
+#### Imputing {impute}
+
+```{r}
+library(impute)
+data_Matrix2 <- data_Matrix_Ordered
+data_Matrix2[sample(1:100, size = 40, replace = FALSE)] <- NA
+data_Matrix2 <- impute.knn(data_Matrix2)$data
+svd1 <- svd(scale(data_Matrix_Ordered)); svd2 <- svd(scale(data_Matrix2))
+par(mfrow = c(1, 2)); plot(svd1$v[,1], pch = 19); plot(svd2$v[,1], pch = 19)
+
+```
+
+#### Face example
+
+```{r}
+load("C:/Users/jdecross/Documents/COURSERA/Exploratory-data-analysis/face.rda")
+image(t(faceData)[, nrow(faceData):1])
+```
+#### Face example – variance explained
+
+```{r}
+svd1 <- svd(scale(faceData))
+plot(svd1$d^2/sum(svd1$d^2), pch = 19, xlab = "Singular vector", ylab = "Variance explained")
+```
+#### Face example – create approximations
+
+```{r}
+svd1 <- svd(scale(faceData))
+
+approx1 <- svd1$u[, 1] %*% t(svd1$v[, 1]) * svd1$d[1]
+
+approx5 <- svd1$u[, 1:5] %*% diag(svd1$d[1:5]) %*% t(svd1$v[, 1:5])
+
+approx10 <- svd1$u[, 1:10] %*% diag(svd1$d[1:10]) %*% t(svd1$v[, 1:10])
+
+```
+
+
+#### Face example – plot approximations
+
+```{r}
+par(mfrow = c(1, 4))
+image(t(approx1)[, nrow(approx1):1], main = "(a)")
+image(t(approx5)[, nrow(approx5):1], main = "(b)")
+image(t(approx10)[, nrow(approx10):1], main = "(c)")
+image(t(faceData)[, nrow(faceData):1], main = "(d)")
+
+
+```
+#### Notes and further resources
+
+ * Scale matters
+ * PC's/SV's may mix real patterns
+ * Can be computationally intensive
+ * Advanced data analysis from an elementary point of view
+ * Elements of statistical learning
+ * Alternatives
+      + Factor analysis
+      + Independent components analysis
+      + Latent semantic analysis
+
+### Working with color in R plots(part 1)
+
+#### Plotting and Color
+
+ * The default color schemes for most plots in R are horrendous
+ * Recently there have been developments to improve the handling/specification of color in plots/graphs/etc.
+ * There are functions in R and in external packages that are very handy
+
+#### Colors 1, 2, and 3
+
+#### Default Image Plot in R
+
+### Working with Color in R(part 2)
+
+#### Color Utilities in R
+
+ * grDevices package has 2 functions
+      + colorRamp
+      + colorRampPalette
+ * These functions take palettes of color and help to interpolate between the colors
+ * The function colors() lists the names of colors you can use in any plotting function
+
+#### Color Palette Utilities in R
+
+ * color Ramp: Take a palette of colors and return a function that takes values between 0 and 1, indicating the extremes of the color palette(e.g.see the 'gray'function)
+ * colorRampPalette: Take a palette of colors and return a function that takes integer arguments and returns a vector of colors interpolating the palette(like heat.colors or topo.colors)

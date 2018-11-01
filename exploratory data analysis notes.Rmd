@@ -1281,5 +1281,87 @@ image(t(faceData)[, nrow(faceData):1], main = "(d)")
 
 #### Color Palette Utilities in R
 
- * color Ramp: Take a palette of colors and return a function that takes values between 0 and 1, indicating the extremes of the color palette(e.g.see the 'gray'function)
+ * colorRamp: Take a palette of colors and return a function that takes values between 0 and 1, indicating the extremes of the color palette(e.g.see the 'gray'function)
  * colorRampPalette: Take a palette of colors and return a function that takes integer arguments and returns a vector of colors interpolating the palette(like heat.colors or topo.colors)
+ 
+#### colorRamp
+
+```{r}
+pal <- colorRamp(c("red", "blue"))
+
+pal(0)
+
+pal(1)
+
+pal(0.5)
+```
+
+#### colorRamp
+
+```{r}
+pal(seq(0, 1, len = 10))
+```
+
+#### colorRampPalette
+
+```{r}
+pal <- colorRampPalette(c("red", "yellow"))
+
+pal(2)
+
+pal(10)
+```
+
+
+### Working with Color in R plots(part 3)
+
+#### RColorBrewer Package
+
+ * One package on CRAN that contained interesting/useful color palettes
+ * There are 3 types of palettes
+      + Sequential
+      + Diverging
+      + Qualitative
+
+ * Pallet information can be used to conjunctions with the colorRamp() and colorRampPalette()
+#### RColorBrewer and colorRampPalette
+
+```{r}
+library(RColorBrewer)
+
+cols <- brewer.pal(3, "BuGn")
+
+cols
+
+pal <- colorRampPalette(cols)
+
+image(volcano, col = pal(20))
+```
+
+
+#### The smoothScatter function
+
+```{r}
+x <- rnorm(10000)
+y <- rnorm(10000)
+smoothScatter(x,y)
+```
+
+#### Scatterplot with no transparency
+
+```{r}
+plot(x,y, pch = 19)
+```
+
+#### Scatterplot with transparency
+
+```{r}
+plot(x,y, col = rgb(0, 0, 0, 0.2), pch = 19)
+```
+
+#### Summary
+
+ * Careful use of colors in plots/maps/etc. can make it easier for the reader to get what you trying to say(why make it harder?)
+ * The RColorBrewer package is an R package that provides color palettes for sequential, categorical, and diverging data
+ * The colorRamp and colorRampPalette functions can be used in conjunction with color palettes to connect data to colors
+ * Transparency can sometimes be used to clarify plots with many points
